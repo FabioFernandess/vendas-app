@@ -1,32 +1,41 @@
 import { HtmlHTMLAttributes, InputHTMLAttributes } from "react";
+import { formatReal } from 'app/util/money'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    id: string,
     onChange?: (value: any) => void;
     label: string;
     columnClasses?: string;
-    id: string,
-
+    currency?: boolean
 }
+
 export const Input: React.FC<InputProps> = ({
     onChange,
     label,
     columnClasses,
     id,
+    currency,
     ...inputProps
 }) => {
+
+    const onInputChange = (event:any) => {
+        let value = event.target.value;
+        if (value && currency) {
+            value = formatReal(value);
+        }
+        if (onChange) {
+            onChange(value)
+        }
+    }
     return (
+
         <div className={`field column ${columnClasses}`}>
             <label className="label" htmlFor={id}>{label}</label>
             <div className="control">
                 <input className="input"
                     id={id}
                     {...inputProps}
-                    onChange={event => {
-                        if (onChange) {
-                            onChange(event.target.value)
-                        }
-                    }
-                    }
+                    onChange={onInputChange}
                     placeholder={inputProps.placeholder} />
             </div>
         </div>

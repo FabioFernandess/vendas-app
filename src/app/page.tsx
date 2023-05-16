@@ -4,7 +4,7 @@ import { Layout } from 'components';
 const Home: React.FC = () => {
 
   return (
-    <Layout/>
+    <Layout titulo='Home'/>
   )
 }
 
